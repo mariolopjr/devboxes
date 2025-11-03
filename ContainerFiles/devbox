@@ -14,7 +14,7 @@ COPY ./scripts/devbox.sh \
 # COPY ./files /
 
 # Run the setup scripts
-RUN /devbox.sh
+RUN /tmp/devbox.sh
 RUN rm -rf /tmp/*
 
 # linuxbrew setup
