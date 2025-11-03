@@ -1,13 +1,13 @@
-name: build-devboxes
+name: build
 on:
-  workflow_dispatch: # allow manually triggering builds
+  workflow_dispatch:
   pull_request:
     branches:
       - main
   push:
     branches:
       - main
-    paths-ignore: # don't rebuild on documentation change
+    paths-ignore:
       - '**.md'
   schedule:
     - cron: '0 0 * * 0'
@@ -26,31 +26,33 @@ jobs:
       id-token: write
     strategy:
       fail-fast: false
+      matrix:
+        containerfile:
+          - devbox
     steps:
-      # Clone code to runner
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Build metadata
       - name: Image Metadata
         uses: docker/metadata-action@v5
         id: meta
         with:
+          images: |
+            ${{ matrix.containerfile }}
           labels: |
-            io.artifacthub.package.readme-url=https://raw.githubusercontent.com/ublue-os/boxkit/main/README.md
+            io.artifacthub.package.readme-url=https://raw.githubusercontent.com/mariolopjr/devboxes/main/README.md
 
-      # Build image using Buildah action
       - name: Build Image
         id: build_image
         uses: redhat-actions/buildah-build@v2
         with:
           containerfiles: |
-            ./Containerfile
-          image: devbox
+            ./ContainerFiles/${{ matrix.containerfile }}
+          image: ${{ matrix.containerfile }}
           tags: ${{ env.IMAGE_TAGS }}
           labels: ${{ steps.meta.outputs.labels }}
           oci: true
-          
+
       # Workaround bug where capital letters in your GitHub username make it impossible to push to GHCR.
       # https://github.com/macbre/push-to-ghcr/issues/12
       - name: Lowercase Registry

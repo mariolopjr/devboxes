@@ -1,4 +1,4 @@
-FROM cgr.dev/chainguard/wolfi-base:latest
+FROM quay.io/toolbx-images/alpine-toolbox:edge@sha256:121d480084595f5be7fb5f7d224788ef6531124355d6ae9619d0dd5929728007
 
 LABEL com.github.containers.toolbox="true" \
       usage="This image is meant to be used with the toolbox or distrobox command" \
@@ -6,13 +6,16 @@ LABEL com.github.containers.toolbox="true" \
       maintainer="mario@techmunchies.net"
 
 # Copy the setup scripts and package list
-COPY ./scripts /
-COPY ./packages/devbox.packages /
-COPY ./files /
+COPY ./scripts/devbox.sh \
+     ./packages/devbox.packages \
+	 /tmp/
+
+# COPY ./files /
 
 # Run the setup scripts
 RUN /devbox.sh
-RUN rm /devbox.sh /distrobox-shims.sh /devbox.packages
+RUN rm -rf /tmp/*
 
 # linuxbrew setup
-RUN mv /home/linuxbrew /home/homebrew
+# RUN mv /home/linuxbrew /home/homebrew
+
