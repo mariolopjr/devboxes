@@ -10,7 +10,6 @@ direnv
 fd
 fish
 fzf
-gh
 git
 jq
 just
@@ -20,7 +19,6 @@ mise
 ncurses
 neovim
 ripgrep
-tealdeer
 wl-clipboard
 zoxide
 zstd
