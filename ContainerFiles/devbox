@@ -11,12 +11,8 @@ COPY ./scripts/devbox.sh \
      ./packages/devbox.packages \
 	 /tmp/
 
-# COPY ./files /
-
 # Run the setup scripts
-RUN /tmp/devbox.sh
-RUN rm -rf /tmp/*
-
-# linuxbrew setup
-# RUN mv /home/linuxbrew /home/homebrew
+RUN chmod +x /tmp/*.sh && \
+    /tmp/devbox.sh && \
+    rm -rf /tmp/*
 
