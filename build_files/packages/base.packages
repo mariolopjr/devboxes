@@ -1,6 +1,7 @@
 base
 bash-completion
 bc
+which
 diffutils
 fish
 glibc-locales
