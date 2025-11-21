@@ -1,0 +1,34 @@
+# Allow build scripts to be referenced without being copied into the final image
+FROM scratch AS ctx
+COPY build_files /
+
+# Base Image
+FROM docker.io/library/archlinux:latest@sha256:121d480084595f5be7fb5f7d224788ef6531124355d6ae9619d0dd5929728007
+
+LABEL com.github.containers.toolbox="true" \
+      usage="This image is meant to be used with the distrobox command" \
+      summary="A developer-focused terminal experience, made for immutable systems" \
+      maintainer="mario@techmunchies.net"
+
+RUN useradd -m --shell=/bin/bash build && usermod -L build
+
+RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
+    --mount=type=cache,dst=/var/cache \
+    --mount=type=cache,dst=/var/log \
+    --mount=type=tmpfs,dst=/tmp \
+    /ctx/scripts/devbox.sh
+
+USER build
+WORKDIR /home/build
+RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
+    --mount=type=cache,dst=/var/cache \
+    --mount=type=cache,dst=/var/log \
+    --mount=type=tmpfs,dst=/tmp \
+    /ctx/scripts/paru.sh
+
+USER root
+WORKDIR /
+RUN sed -i 's@#en_US.UTF-8@en_US.UTF-8@g' /etc/locale.gen && \
+    userdel -r build && \
+    rm -rf /home/build
+

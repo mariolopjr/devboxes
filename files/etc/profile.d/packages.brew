@@ -1,6 +1,0 @@
-tap "homebrew/aliases"
-brew "f3"
-brew "mise"
-brew "ncdu"
-brew "smartmontools"
-brew "wakeonlan""

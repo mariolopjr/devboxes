@@ -5,10 +5,9 @@ chezmoi
 cosign
 ctop
 curl
-delta
+git-delta
 direnv
 fd
-fish
 fzf
 git
 jq
