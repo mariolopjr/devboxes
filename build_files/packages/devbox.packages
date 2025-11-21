@@ -6,6 +6,7 @@ cosign
 ctop
 curl
 git-delta
+github-cli
 direnv
 fd
 fzf
