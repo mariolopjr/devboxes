@@ -18,6 +18,7 @@ make
 mise
 ncurses
 neovim
+qmk
 ripgrep
 usage
 wl-clipboard
