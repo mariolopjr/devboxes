@@ -9,11 +9,15 @@ git-delta
 github-cli
 direnv
 fd
+fontconfig
 fzf
 git
 jq
 just
 lazygit
+libdecor
+libpulse
+libxkbcommon
 make
 mise
 ncurses
